@@ -4,7 +4,7 @@ package edu.grinnell.csc207.blocks;
  * The center-aligned horizontal composition of two blocks.
  *
  * @author Samuel A. Rebelsky
- * @author Your Name Here
+ * @author Jana Vadillo & jafar jarrar
  */
 public class HorizontalCompositionCenter implements AsciiBlock {
   // +--------+------------------------------------------------------------
@@ -54,7 +54,19 @@ public class HorizontalCompositionCenter implements AsciiBlock {
    *   if i is outside the range of valid rows.
    */
   public String row(int i) throws Exception {
-    throw new Exception("Not yet implemented"); // STUB
+    if ((i < 0) || (i >= this.height())) {
+      // Outside of normal bounds
+      throw new Exception("Invalid row " + i);
+    } else if ((i < this.left.height()) && (i < this.right.height())) {
+      // Inside both left and right bounds
+      return this.left.row(i) + this.right.row(i);
+    } else if (i < this.right.height()) {
+      // Inside right bounds, outside left bounds
+      return " ".repeat(this.left.width()) + this.right.row(i);
+    } else {
+      // Inside left bounds, outside right bounds
+      return this.left.row(i) +" ".repeat(this.right.width());
+    } // if/else
   } // row(int)
 
   /**
